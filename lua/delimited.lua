@@ -25,7 +25,7 @@ local function diagnostic_hl(d)
 	vim.g.edh_tracker = (vim.g.edh_tracker + 1) % 500
 
 	api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-  vim.cmd [[IBLDisable]]
+	vim.cmd([[IBLDisable]])
 	vim.highlight.range(bufnr, ns, hlgroup(d), { d.lnum, d.col }, { d.end_lnum, d.end_col })
 
 	return old_edh_tracker
@@ -41,7 +41,7 @@ local function diagnostic_hl_set_trigger(bufnr, old_tracker, old_cursor)
 			end
 			if vim.g.edh_tracker == (old_tracker + 1) % 500 then
 				api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-        vim.cmd [[IBLEnable]]
+				vim.cmd([[IBLEnable]])
 			end
 			return true
 		end,
