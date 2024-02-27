@@ -63,7 +63,7 @@ function M.goto_next(opts, dopts)
 	dopts = dopts or {}
 	local bufnr = api.nvim_get_current_buf()
 	local d = vim.diagnostic.get_next(opts)
-	if not d then
+	if not d or not d.end_lnum or not d.end_col then
 		vim.diagnostic.goto_next(opts)
 		return
 	end
@@ -76,7 +76,7 @@ function M.goto_prev(opts, dopts)
 	dopts = dopts or {}
 	local bufnr = api.nvim_get_current_buf()
 	local d = vim.diagnostic.get_prev(opts)
-	if not d then
+	if not d or not d.end_lnum or not d.end_col then
 		vim.diagnostic.goto_prev(opts)
 		return
 	end
