@@ -8,6 +8,11 @@ function M.setup(tbl)
   M.settings = tbl
 end
 
+function M.eval_config(tbl)
+	if not tbl then return M.settings	end
+	return vim.tbl_extend('force', M.settings, tbl)
+end
+
 local function hlgroup(d)
 	if d.severity == severity.ERROR then
 		return "EphemeralError"
@@ -60,7 +65,7 @@ local function diagnostic_hl_set_trigger(bufnr, old_tracker, dopts)
 end
 
 function M.goto_next(opts, dopts)
-	dopts = dopts or {}
+	dopts = M.eval_config(dopts)
 	local bufnr = api.nvim_get_current_buf()
 	local d = vim.diagnostic.get_next(opts)
 	if not d or not d.end_lnum or not d.end_col then
@@ -73,7 +78,7 @@ function M.goto_next(opts, dopts)
 end
 
 function M.goto_prev(opts, dopts)
-	dopts = dopts or {}
+	dopts = M.eval_config(dopts)
 	local bufnr = api.nvim_get_current_buf()
 	local d = vim.diagnostic.get_prev(opts)
 	if not d or not d.end_lnum or not d.end_col then
