@@ -6,6 +6,12 @@ M.settings = {}
 
 function M.setup(tbl)
   M.settings = tbl
+  vim.cmd [[
+    highlight default link DelimitedError DiagnosticVirtualTextError
+    highlight default link DelimitedWarn DiagnosticVirtualTextWarn
+    highlight default link DelimitedInfo DiagnosticVirtualTextInfo
+    highlight default link DelimitedHint DiagnosticVirtualTextHint
+  ]]
 end
 
 function M.eval_config(tbl)
