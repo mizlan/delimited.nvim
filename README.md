@@ -34,4 +34,11 @@ You may configure pre- and post-hooks:
     },
 ```
 
-**Note:** you must define the highlight groups `DelimitedError` `DelimitedWarn` `DelimitedHint` `DelimitedInfo`.
+### Highlights
+
+| Group            | Default                      |
+|------------------|------------------------------|
+| `DelimitedError` | `DiagnosticVirtualTextError` |
+| `DelimitedWarn`  | `DiagnosticVirtualTextWarn`  |
+| `DelimitedInfo`  | `DiagnosticVirtualTextInfo`  |
+| `DelimitedHint`  | `DiagnosticVirtualTextHint`  |
