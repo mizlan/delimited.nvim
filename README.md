@@ -1,5 +1,7 @@
 # delimited.nvim
 
+Highlight the exact range of a diagnostic!
+
 https://github.com/mizlan/delimited.nvim/assets/44309097/d8d4fac5-036f-4032-99f9-fd762d4f8a4e
 
 Use as a **drop-in replacement** for `vim.diagnostic.goto_next` and
