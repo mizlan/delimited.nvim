@@ -15,13 +15,13 @@ end
 
 local function hlgroup(d)
 	if d.severity == severity.ERROR then
-		return "EphemeralError"
+		return "DelimitedError"
 	elseif d.severity == severity.WARN then
-		return "EphemeralWarn"
+		return "DelimitedWarn"
 	elseif d.severity == severity.HINT then
-		return "EphemeralHint"
+		return "DelimitedHint"
 	elseif d.severity == severity.INFO then
-		return "EphemeralInfo"
+		return "DelimitedInfo"
 	end
 end
 
@@ -29,7 +29,7 @@ local function diagnostic_hl(d, dopts)
 	vim.g.edh_tracker = vim.g.edh_tracker or 0
 
 	local bufnr = api.nvim_get_current_buf()
-	local ns = api.nvim_create_namespace("ephemeraldiagnostichighlight")
+	local ns = api.nvim_create_namespace("delimited")
 
 	local old_edh_tracker = vim.g.edh_tracker
 
@@ -46,7 +46,7 @@ end
 
 local function diagnostic_hl_set_trigger(bufnr, old_tracker, dopts)
 	local old_cursor = api.nvim_win_get_cursor(0)
-	local ns = api.nvim_create_namespace("ephemeraldiagnostichighlight")
+	local ns = api.nvim_create_namespace("delimited")
 	api.nvim_create_autocmd({ "CursorMoved" }, {
 		callback = function()
 			local cursor = api.nvim_win_get_cursor(0)
