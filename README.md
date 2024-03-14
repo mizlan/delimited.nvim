@@ -18,20 +18,21 @@ vim.keymap.set("n", "]D", function()
 end, bufopts)
 ```
 
-You may configure pre- and post-hooks:
+You may configure pre- and post-hooks (note that `setup()` is not needed for
+default usage):
 
 ```lua
-    {
-        "mizlan/delimited.nvim",
-        opts = {
-            pre = function()
-                -- do something here
-            end,
-            post = function()
-                -- do something here
-            end,
-        },
+{
+    "mizlan/delimited.nvim",
+    opts = {
+        pre = function()
+            -- do something here
+        end,
+        post = function()
+            -- do something here
+        end,
     },
+},
 ```
 
 ### Highlights
