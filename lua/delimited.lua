@@ -53,7 +53,7 @@ end
 local function diagnostic_hl_set_trigger(bufnr, old_tracker, dopts)
 	local old_cursor = api.nvim_win_get_cursor(0)
 	local ns = api.nvim_create_namespace("delimited")
-	api.nvim_create_autocmd({ "CursorMoved" }, {
+	api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 		callback = function()
 			local cursor = api.nvim_win_get_cursor(0)
 			if old_cursor[1] == cursor[1] and old_cursor[2] == cursor[2] then
