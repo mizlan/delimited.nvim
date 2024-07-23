@@ -18,8 +18,8 @@ vim.keymap.set("n", "]D", function()
 end, bufopts)
 ```
 
-You may configure pre- and post-hooks (note that `setup()` is not needed for
-default usage):
+You may configure pre- and post-hooks (note that `setup()` is needed if you'd
+like to create the default highlights):
 
 ```lua
 {
