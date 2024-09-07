@@ -54,9 +54,9 @@ local function diagnostic_hl_set_trigger(bufnr, old_tracker, dopts)
 	local old_cursor = api.nvim_win_get_cursor(0)
 	local ns = api.nvim_create_namespace("delimited")
 	api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
-		callback = function()
+		callback = function(ev)
 			local cursor = api.nvim_win_get_cursor(0)
-			if old_cursor[1] == cursor[1] and old_cursor[2] == cursor[2] then
+			if ev.event == "CursorMoved" and old_cursor[1] == cursor[1] and old_cursor[2] == cursor[2] then
 				return
 			end
 			if vim.g.delimited_tracker == (old_tracker + 1) % 256 then
