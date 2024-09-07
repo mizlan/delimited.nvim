@@ -32,14 +32,14 @@ local function hlgroup(d)
 end
 
 local function diagnostic_hl(d, dopts)
-	vim.g.edh_tracker = vim.g.edh_tracker or 0
+	vim.g.delimited_tracker = vim.g.delimited_tracker or 0
 
 	local bufnr = api.nvim_get_current_buf()
 	local ns = api.nvim_create_namespace("delimited")
 
-	local old_edh_tracker = vim.g.edh_tracker
+	local old_tracker = vim.g.delimited_tracker
 
-	vim.g.edh_tracker = (vim.g.edh_tracker + 1) % 500
+	vim.g.delimited_tracker = (vim.g.delimited_tracker + 1) % 256
 
 	api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
 	if dopts.pre then
@@ -47,19 +47,19 @@ local function diagnostic_hl(d, dopts)
 	end
 	vim.highlight.range(bufnr, ns, hlgroup(d), { d.lnum, d.col }, { d.end_lnum, d.end_col })
 
-	return old_edh_tracker
+	return old_tracker
 end
 
 local function diagnostic_hl_set_trigger(bufnr, old_tracker, dopts)
 	local old_cursor = api.nvim_win_get_cursor(0)
 	local ns = api.nvim_create_namespace("delimited")
-	api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+	api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
 		callback = function()
 			local cursor = api.nvim_win_get_cursor(0)
 			if old_cursor[1] == cursor[1] and old_cursor[2] == cursor[2] then
 				return
 			end
-			if vim.g.edh_tracker == (old_tracker + 1) % 500 then
+			if vim.g.delimited_tracker == (old_tracker + 1) % 256 then
 				api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
 				if dopts.post then
 					dopts.post()
