@@ -5,18 +5,20 @@ local M = {}
 M.settings = {}
 
 function M.setup(tbl)
-  M.settings = tbl
-  vim.cmd [[
-    highlight default link DelimitedError DiagnosticVirtualTextError
-    highlight default link DelimitedWarn DiagnosticVirtualTextWarn
-    highlight default link DelimitedInfo DiagnosticVirtualTextInfo
-    highlight default link DelimitedHint DiagnosticVirtualTextHint
-  ]]
+	M.settings = tbl
+	vim.cmd([[
+	highlight default link DelimitedError DiagnosticVirtualTextError
+	highlight default link DelimitedWarn DiagnosticVirtualTextWarn
+	highlight default link DelimitedInfo DiagnosticVirtualTextInfo
+	highlight default link DelimitedHint DiagnosticVirtualTextHint
+	]])
 end
 
 function M.eval_config(tbl)
-	if not tbl then return M.settings	end
-	return vim.tbl_extend('force', M.settings, tbl)
+	if not tbl then
+		return M.settings
+	end
+	return vim.tbl_extend("force", M.settings, tbl)
 end
 
 local function hlgroup(d)
@@ -70,30 +72,25 @@ local function diagnostic_hl_set_trigger(bufnr, old_tracker, dopts)
 	})
 end
 
-function M.goto_next(opts, dopts)
+function M.jump(opts, dopts)
 	dopts = M.eval_config(dopts)
 	local bufnr = api.nvim_get_current_buf()
-	local d = vim.diagnostic.get_next(opts)
-	if not d or not d.end_lnum or not d.end_col then
-		vim.diagnostic.goto_next(opts)
+	local diag = vim.diagnostic.jump(opts)
+	if not diag or not diag.end_lnum or not diag.end_col then
 		return
 	end
-	local old_tracker = diagnostic_hl(d, dopts)
-	vim.diagnostic.goto_next(opts)
+	local old_tracker = diagnostic_hl(diag, dopts)
 	diagnostic_hl_set_trigger(bufnr, old_tracker, dopts)
 end
 
+function M.goto_next(opts, dopts)
+	local goto_opts = { count = 1, float = true }
+	return M.jump(vim.tbl_extend("keep", opts, goto_opts), dopts)
+end
+
 function M.goto_prev(opts, dopts)
-	dopts = M.eval_config(dopts)
-	local bufnr = api.nvim_get_current_buf()
-	local d = vim.diagnostic.get_prev(opts)
-	if not d or not d.end_lnum or not d.end_col then
-		vim.diagnostic.goto_prev(opts)
-		return
-	end
-	local old_tracker = diagnostic_hl(d, dopts)
-	vim.diagnostic.goto_prev(opts)
-	diagnostic_hl_set_trigger(bufnr, old_tracker, dopts)
+	local goto_opts = { count = -1, float = true }
+	return M.jump(vim.tbl_extend("keep", opts, goto_opts), dopts)
 end
 
 return M
