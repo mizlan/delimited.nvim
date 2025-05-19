@@ -85,12 +85,14 @@ end
 
 function M.goto_next(opts, dopts)
 	local goto_opts = { count = 1, float = true }
-	return M.jump(vim.tbl_extend("keep", opts, goto_opts), dopts)
+	local opts = opts and vim.tbl_extend("force", goto_opts, opts) or goto_opts
+	return M.jump(opts, dopts)
 end
 
 function M.goto_prev(opts, dopts)
 	local goto_opts = { count = -1, float = true }
-	return M.jump(vim.tbl_extend("keep", opts, goto_opts), dopts)
+	local opts = opts and vim.tbl_extend("force", goto_opts, opts) or goto_opts
+	return M.jump(opts, dopts)
 end
 
 return M
